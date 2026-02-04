@@ -5,19 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | Rasheed</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #successMessage {
+      display: none;
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>Contact Me</h1>
-
   <nav>
     <a href="index.html">Home</a>
     <a href="projects.html">Projects</a>
     <a href="contact.html">Contact</a>
   </nav>
-
   <br>
   <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
 </header>
@@ -27,42 +35,59 @@
 
     <h2>Send Me a Message</h2>
 
-    <!-- ✅ Formspree Contact Form -->
-    <form action="https://formspree.io/f/mnjzewbb" method="POST">
-
-      <!-- ✅ Redirect after submit -->
-      <input type="hidden" name="_next"
-        value="https://mrrasheedahamed.github.io/portfolio/thankyou.html">
-
-      <!-- Name -->
+    <!-- Contact Form -->
+    <form id="contactForm">
       <input type="text" name="name" placeholder="Your Name" required
         style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;">
 
-      <!-- Email -->
       <input type="email" name="email" placeholder="Your Email" required
         style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;">
 
-      <!-- Message -->
       <textarea name="message" placeholder="Your Message" required
         rows="5"
         style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;"></textarea>
 
-      <!-- Submit Button -->
-      <button type="submit"
-        style="width:100%; padding:12px; font-size:16px; border-radius:10px;">
-        📩 Send Message
-      </button>
-
+      <button type="submit" style="width:100%; padding:12px; font-size:16px; border-radius:10px;">📩 Send Message</button>
     </form>
+
+    <!-- Success Message -->
+    <div id="successMessage">
+      ✅ Your message was sent successfully! I will reply soon.
+    </div>
 
     <p style="margin-top:20px;">
       Email: <b>rasheedahamed@gmail.com</b>
     </p>
-
   </div>
 </section>
 
 <script src="script.js"></script>
+<script>
+  const form = document.getElementById('contactForm');
+  const successMessage = document.getElementById('successMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent page reload
+
+    const data = new FormData(form);
+
+    // Send data to Formspree
+    fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        form.reset();
+        successMessage.style.display = 'block';
+      } else {
+        alert('Oops! There was a problem sending your message.');
+      }
+    }).catch(error => {
+      alert('Oops! There was a problem sending your message.');
+    });
+  });
+</script>
+
 </body>
 </html>
-
